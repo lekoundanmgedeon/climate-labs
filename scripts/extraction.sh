@@ -7,7 +7,7 @@
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 INDIR="${BASE_DIR}/data"
-OUTDIR="${BASE_DIR}/ncfiles"
+OUTDIR="${BASE_DIR}/out_data"
 
 INPUT_FILE="${INDIR}/CRU_Africa_ts4.05.1901.2020.pre.nc"
 
