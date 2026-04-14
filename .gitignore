@@ -1,0 +1,57 @@
+# =========================
+# Output directories
+# =========================
+out_data/
+output/
+results/
+*.nc
+
+# (optionnel) si tu veux garder certains .nc, commente la ligne *.nc
+
+# =========================
+# Logs
+# =========================
+*.log
+*.out
+*.err
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+
+# =========================
+# Shell / bash artifacts
+# =========================
+bash_history
+*.bash_history
+
+# =========================
+# Python (si jamais utilisé plus tard)
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Editors
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Optional: large climate datasets
+# =========================
+# CRU_*.nc
+# *.nc4

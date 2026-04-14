@@ -1,0 +1,30 @@
+
+# a- Extract the area around your_country from the monthly precipitation data by
+specifying long and lat co-ordinates.
+
+cdo sellonlatbox,11,19,-5,3 CRU_Africa_ts4.05.1901.2020.pre.nc congo_precip.nc
+
+cdo sellonlatbox,-17,-11,12,17 CRU_Africa_ts4.05.1901.2020.pre.nc senegal_precip.nc
+
+## Get information of precipation .nc file created 
+cdo sinfo senegal_precip.nc
+cdo griddes CRU_Africa_ts4.05.1901.2020.pre.nc
+cdo sinfo congo_precip.nc
+
+# b- calculate the mean seasonal cycle for the period 1981-2010 over your_country
+
+cdo selyear,1981/2010 congo_precip.nc congo_1981_2010.nc
+cdo ymonmean congo_1981_2010.nc congo_seasonal_cycle.nc
+
+cdo selyear,1981/2010  -selmon,05,06,07,08 congo_precip.nc  congo_dry_season_1981_2010.nc
+cdo ymonmean congo_dry_season_1981_2010.nc congo_mean_dry.nc
+
+4. Annual Cycle averaged over Senegal 
+
+## this command should gives juste time series
+
+cdo fldmean congo_precip.nc congo_fieldmean.nc 
+
+## ymonmean gives year cycle 
+
+cdo ymonmean congo_fieldmean.nc congo_fieldmonmean.nc 
