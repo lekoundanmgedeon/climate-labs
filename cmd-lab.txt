@@ -28,3 +28,50 @@ cdo fldmean congo_precip.nc congo_fieldmean.nc
 ## ymonmean gives year cycle 
 
 cdo ymonmean congo_fieldmean.nc congo_fieldmonmean.nc 
+
+# Commande selyear split precipitation to each 
+
+cdo selyear,1979 precip.1979_1983.nc precip.1979.nc
+
+# With for loops 
+    for year in 1979 1980 1981 1982 1983
+        do
+            cdo selyear,$year precip.1979_1983.nc precip.$year.nc
+        done
+
+# Merge all precipitation year into one 
+
+cdo mergetime precip.1979.nc precip.1980.nc precip.1981.nc precip_1979_1981.nc
+
+# cdo sellonlatbox,-30,60,-40,40 precip.1979_1983.nc cpc_africa.nc
+
+#Commande hint 
+   # cdo sellonlatbox,lon_min,lon_max,lat_min,lat_max input.nc output.nc
+   # -30, 60  → longitude (ouest → est)
+   # -40, 40  → latitude (sud → nord)
+
+
+# Comande for splityears 
+
+cdo selyear cpc_africa.nc cpc/
+
+# commabde for cdd
+cdo mergetime precip.19*.nc cdd_1979_1983.nc
+
+# Compute eca_cdd operator 
+
+for i in $(ls) ; do cdo eca_cdd $i cdd_$(i) ; done 
+
+# ls prec/
+cdd_precip.1979_1983.nc  cdd_precip.1981.nc  precip.1979_1983.nc  precip.1981.nc
+cdd_precip.1979.nc       cdd_precip.1982.nc  precip.1979.nc       precip.1982.nc
+cdd_precip.1980.nc       cdd_precip.1983.nc  precip.1980.nc       precip.1983.nc
+
+
+## All complete cmd 
+
+students-aimssn@asn11:~/Documents/climate_lab$ cdo mergetime prec/precip.19* precip.1979_1983.nc
+cdo    mergetime: Processed 946598400 values from 6 variables over 3652 timesteps [34.74s 108MB].
+students-aimssn@asn11:~/Documents/climate_lab$ cdo sellonlatbox,-30,60,-40,40 precip.1979_1983.nc cpc_africa.nc
+cdo    sellonlatbox: Processed 946598400 values from 1 variable over 3652 timesteps [30.02s 85MB].
+students-aimssn@asn11:~/Documents/climate_lab$ 
