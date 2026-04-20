@@ -73,7 +73,7 @@ time = ncfile0.variables['time']
 ncfile0.close()
 
 #--------MAM season--------- 
-ncfile1 = Dataset(path + '/africa_cru_MAM.nc', 'r', format='NETCDF4')
+ncfile1 = Dataset(path + '/africa_mam.nc', 'r', format='NETCDF4')
 pr_mam = ncfile1.variables['pre'][:,:,:] 
 lat = ncfile1.variables['lat'][:]
 lon = ncfile1.variables['lon'][:]
@@ -81,7 +81,7 @@ lon = ncfile1.variables['lon'][:]
 ncfile1.close()
 
 #--------JJA season--------- 
-ncfile2 = Dataset(path + '/africa_cru_JJA.nc', 'r', format='NETCDF4')
+ncfile2 = Dataset(path + '/africa_jja.nc', 'r', format='NETCDF4')
 pr_jja = ncfile2.variables['pre'][:,:,:] 
 lat = ncfile2.variables['lat'][:]
 lon = ncfile2.variables['lon'][:]
@@ -89,7 +89,7 @@ lon = ncfile2.variables['lon'][:]
 ncfile2.close()
 
 #--------SON season--------- 
-ncfile3 = Dataset(path + '/africa_cru_SON.nc', 'r', format='NETCDF4')
+ncfile3 = Dataset(path + '/africa_son.nc', 'r', format='NETCDF4')
 pr_son = ncfile3.variables['pre'][:,:,:]
 lat = ncfile3.variables['lat'][:]
 lon = ncfile3.variables['lon'][:]
@@ -123,10 +123,10 @@ axa.add_feature(cfeat.BORDERS.with_scale('10m'),linewidth=0.5)
 axa.coastlines(resolution='10m',linewidth=0.5);
 #axa.add_feature(cfeat.BORDERS, linestyle='-', alpha=.5)
 #axa.add_feature(cfeat.OCEAN,edgecolor='k',facecolor='w') # to mask ocean
-cs1 = plt.contourf(lon2d,lat2d,pr_djf,levels = np.arange(30.,270.,20),cmap=plt.cm.jet)
-axa.set_extent([-30 ,60, -40, 40])
-#axa.set_xticks(range(-30,60,15), crs=prj)
-axa.set_yticks(range(-40,40,15), crs=prj)
+cs1 = plt.contourf(lon2d,lat2d,pr_djf,levels = np.arange(0.,270.,10),cmap=plt.cm.jet)
+axa.set_extent([11,19,-5,4])
+axa.set_xticks(range(10,20,1), crs=prj)
+axa.set_yticks(range(-5,4,1), crs=prj)
 #axa.xaxis.set_major_formatter(LONGITUDE_FORMATTER)
 axa.yaxis.set_major_formatter(LATITUDE_FORMATTER)
 plt.title('a) DJF RAINFALL', fontsize=8)
@@ -139,10 +139,10 @@ axb.add_feature(cfeat.BORDERS.with_scale('10m'),linewidth=0.5)
 axb.coastlines(resolution='10m',linewidth=0.5);
 #axb.add_feature(cfeat.BORDERS, linestyle='-', alpha=.5)
 #axb.add_feature(cfeat.OCEAN,edgecolor='k',facecolor='w') # to mask ocean
-cs1 = plt.contourf(lon2d,lat2d,pr_mam, levels = np.arange(30.,270.,20),cmap=plt.cm.jet)
-axb.set_extent([-30 ,60, -40, 40])
-#axb.set_xticks(range(-30,60,15), crs=prj)
-#axb.set_yticks(range(-40,40,15), crs=prj)
+cs1 = plt.contourf(lon2d,lat2d,pr_mam, levels = np.arange(0.,270.,10),cmap=plt.cm.jet)
+axb.set_extent([11,19,-5,4])
+axa.set_xticks(range(10,20,1), crs=prj)
+axa.set_yticks(range(-5,4,1), crs=prj)
 axb.xaxis.set_major_formatter(LONGITUDE_FORMATTER)
 axb.yaxis.set_major_formatter(LATITUDE_FORMATTER)
 plt.title('b) MAM RAINFALL', fontsize=8)
@@ -155,10 +155,10 @@ axc.add_feature(cfeat.BORDERS.with_scale('10m'),linewidth=0.5)
 axc.coastlines(resolution='10m',linewidth=0.5);
 #axc.add_feature(cfeat.BORDERS, linestyle='-', alpha=.5)
 #axc.add_feature(cfeat.OCEAN,edgecolor='k',facecolor='w') # to mask ocean
-csc = plt.contourf(lon2d,lat2d,pr_jja,levels = np.arange(30.,270.,20),cmap=plt.cm.jet)
-axc.set_extent([-30 ,60, -40, 40])
-axc.set_xticks(range(-30,60,15), crs=prj)
-axc.set_yticks(range(-40,40,15), crs=prj)
+csc = plt.contourf(lon2d,lat2d,pr_jja,levels = np.arange(0.,270.,10),cmap=plt.cm.jet)
+axc.set_extent([11,19,-5,4])
+axa.set_xticks(range(10,20,1), crs=prj)
+axa.set_yticks(range(-5,4,1), crs=prj)
 axc.xaxis.set_major_formatter(LONGITUDE_FORMATTER)
 axc.yaxis.set_major_formatter(LATITUDE_FORMATTER)
 plt.title('c) JJA RAINFALL', fontsize=8)
@@ -171,9 +171,9 @@ axd.add_feature(cfeat.BORDERS.with_scale('10m'),linewidth=0.5)
 axd.coastlines(resolution='10m',linewidth=0.5);
 #axd.add_feature(cfeat.BORDERS, linestyle='-', alpha=.5)
 #axd.add_feature(cfeat.OCEAN,edgecolor='k',facecolor='w') # to mask ocean
-cs1 = plt.contourf(lon2d,lat2d,pr_son,levels = np.arange(30.,270.,20),cmap=plt.cm.jet)
-axd.set_extent([-30 ,60, -40, 40])
-axd.set_xticks(range(-30,60,15), crs=prj)
+cs1 = plt.contourf(lon2d,lat2d,pr_son,levels = np.arange(0.,270.,10),cmap=plt.cm.jet)
+axd.set_extent([11,19,-5,4])
+axa.set_xticks(range(10,20,1), crs=prj)
 #axd.set_yticks(range(-40,40,15), crs=prj)
 axd.xaxis.set_major_formatter(LONGITUDE_FORMATTER)
 axd.yaxis.set_major_formatter(LATITUDE_FORMATTER)
@@ -195,6 +195,6 @@ cbar.set_label('[mm/month]',rotation=270, labelpad=15)
 
 plt.show()
 
-save('../figures/Rainfall_all_seasons', ext='pdf', close=True, verbose=True)  # save high quality figures
+save('/figures/Rainfall_all_seasons', ext='pdf', close=True, verbose=True)  # save high quality figures
 
 
