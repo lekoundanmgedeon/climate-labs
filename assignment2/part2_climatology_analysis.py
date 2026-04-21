@@ -1,9 +1,9 @@
 # ============================================================
 # Script: climatology_analysis.py
-# Objectif:
-#   - Compute precipitations climatology
+# Objective:
+#   - Compute precipitation climatology
 #   - Mean, seasons (DJF, MAM, JJA, SON)
-#   - Annuel cycle 
+#   - Annual cycle
 #   - Save as PNG
 # ============================================================
 
@@ -12,18 +12,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ============================
-# 1. Upload file
+# 1. Load file
 # ============================
 file_path = "CRU_Africa_ts4.05.1901.2020.pre.nc"
 ds = xr.open_dataset(file_path)
 
-# Variable précipitation
+# Precipitation variable
 pr = ds['pre']
 
 
-# 2. Sélection du pays (Sénégal)
+# 2. Country selection (Senegal)
 # ============================
-# Approx bounding box Sénégal
+# Approx bounding box Senegal
 lat_min, lat_max = 12, 17
 lon_min, lon_max = -18, -11
 
@@ -31,7 +31,7 @@ pr_country = pr.sel(lat=slice(lat_min, lat_max),
                     lon=slice(lon_min, lon_max))
 
 # ============================
-# 3. Climatologie mean
+# 3. Mean climatology
 # ============================
 mean_clim = pr_country.mean(dim="time")
 
@@ -41,7 +41,7 @@ plt.title("Mean Climatology (Precipitation)")
 plt.savefig("mean_climatology.png", dpi=300)
 
 # ============================
-# 4. Climatologie seasonal
+# 4. Seasonal climatology
 # ============================
 seasons = {
     "DJF": [12, 1, 2],
@@ -60,7 +60,7 @@ for season, months in seasons.items():
     plt.savefig(f"{season}_climatology.png", dpi=300)
 
 # ============================
-# 5. Annuel cycle moyen
+# 5. Mean annual cycle
 # ============================
 monthly_clim = pr_country.groupby("time.month").mean(dim="time")
 
@@ -76,6 +76,6 @@ plt.grid()
 
 plt.savefig("annual_cycle.png", dpi=300)
 
-# 6. Fin
+# 6. End
 # ============================
-print("Analyse terminée. PNG sauvegardés.")
+print("Analysis completed. PNGs saved.")

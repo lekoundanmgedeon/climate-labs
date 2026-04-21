@@ -1,8 +1,8 @@
 # ============================================================
 # Script: pca_kmeans_climate.py
-# Objectif:
-#   - Appliquer PCA et K-means sur précipitations
-#   - Visualiser et comparer les résultats
+# Objective:
+#   - Apply PCA and K-means to precipitation data
+#   - Visualize and compare results
 # ============================================================
 
 import xarray as xr
@@ -13,13 +13,13 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
 # ============================
-# 1. Charger les données
+# 1. Load data
 # ============================
 ds = xr.open_dataset("CRU_Africa_ts4.05.1901.2020.pre.nc")
 pr = ds['pre']
 
 # ============================
-# 2. Préparation des données
+# 2. Data preparation
 # ============================
 # reshape (time, lat, lon) -> (time, pixels)
 data = pr.values
@@ -27,11 +27,11 @@ time, lat, lon = data.shape
 
 X = data.reshape(time, lat * lon)
 
-# supprimer NaN
+# Remove NaN
 mask = ~np.isnan(X).any(axis=0)
 X = X[:, mask]
 
-# standardisation
+# Standardization
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
@@ -41,9 +41,9 @@ X_scaled = scaler.fit_transform(X)
 pca = PCA(n_components=3)
 X_pca = pca.fit_transform(X_scaled)
 
-print("Variance expliquée :", pca.explained_variance_ratio_)
+print("Explained variance:", pca.explained_variance_ratio_)
 
-# visualisation
+# Visualization
 plt.figure()
 plt.plot(np.cumsum(pca.explained_variance_ratio_), marker='o')
 plt.title("Cumulative Explained Variance (PCA)")
@@ -58,7 +58,7 @@ plt.savefig("pca_variance.png", dpi=300)
 kmeans = KMeans(n_clusters=4, random_state=42)
 labels = kmeans.fit_predict(X_scaled.T)
 
-# reconstruire carte
+# Reconstruct map
 cluster_map = np.full(lat * lon, np.nan)
 cluster_map[mask] = labels
 cluster_map = cluster_map.reshape(lat, lon)
@@ -72,7 +72,7 @@ plt.savefig("kmeans_clusters.png", dpi=300)
 # ============================
 # 5. PCA spatial patterns
 # ============================
-# composantes principales (EOF-like)
+# Principal components (EOF-like)
 pc1 = pca.components_[0]
 pc_map = np.full(lat * lon, np.nan)
 pc_map[mask] = pc1
@@ -84,4 +84,4 @@ plt.colorbar(label="PC1")
 plt.title("PCA - First Component")
 plt.savefig("pca_pc1.png", dpi=300)
 
-print("Analyse terminée.")
+print("Analysis completed.")

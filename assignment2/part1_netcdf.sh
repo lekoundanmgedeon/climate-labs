@@ -2,16 +2,16 @@
 
 # ============================================================
 # Script: part11_netcdf.sh
-# Objectif:
-#   - Télécharger les données CPC (1979-1988)
-#   - Calculer les jours secs consécutifs (CDD)
-#   - Fusionner les résultats en un seul fichier NetCDF
-#   - Afficher des informations sur le fichier final
+# Objective:
+#   - Download CPC data (1979-1988)
+#   - Calculate consecutive dry days (CDD)
+#   - Merge results into a single NetCDF file
+#   - Display information about the final file
 #
-# Auteur: Mardochet Gédéon LEKOUNDA
+# Author: Mardochet Gédéon LEKOUNDA
 # ============================================================
 
-set -e  # arrêter le script en cas d'erreur
+set -e  # Stop script in case of error
 
 # ============================
 # 1. Configuration
@@ -25,9 +25,9 @@ FINAL_FILE="cdd_final.nc"
 mkdir -p $DATA_DIR $CDD_DIR
 
 # ============================
-# 2. Téléchargement des données
+# 2. Download data
 # ============================
-echo "=== Téléchargement des données CPC ==="
+echo "=== Downloading CPC data ==="
 cd $DATA_DIR
 
 for year in $(seq $START_YEAR $END_YEAR); do
@@ -35,19 +35,19 @@ for year in $(seq $START_YEAR $END_YEAR); do
     URL="https://downloads.psl.noaa.gov/Datasets/cpc_global_precip/${FILE}"
     
     if [ ! -f "$FILE" ]; then
-        echo "Téléchargement de $FILE..."
+        echo "Downloading $FILE..."
         wget -q $URL
     else
-        echo "$FILE déjà téléchargé"
+        echo "$FILE already downloaded"
     fi
 done
 
 cd ..
 
 # ============================
-# 3. Calcul des jours secs (precip < 1 mm)
+# 3. Calculate dry days (precip < 1 mm)
 # ============================
-echo "=== Calcul des jours secs ==="
+echo "=== Calculating dry days ==="
 
 for year in $(seq $START_YEAR $END_YEAR); do
     cdo -ltc,1 $DATA_DIR/precip.${year}.nc $CDD_DIR/dry_${year}.nc
@@ -55,44 +55,44 @@ for year in $(seq $START_YEAR $END_YEAR); do
 done
 
 # ============================
-# 4. Calcul du CDD
+# 4. Calculate CDD
 # ============================
-echo "=== Calcul du CDD (Consecutive Dry Days) ==="
+echo "=== Calculate CDD (Consecutive Dry Days) ==="
 
 for year in $(seq $START_YEAR $END_YEAR); do
     cdo eca_cdd $CDD_DIR/dry_${year}.nc $CDD_DIR/cdd_${year}.nc
 done
 
 # ============================
-# 5. Fusion des fichiers (méthode 1: CDO)
+# 5. Merge files (method 1: CDO)
 # ============================
-echo "=== Fusion des fichiers CDD ==="
+echo "=== Merging CDD files ==="
 
 cdo mergetime $CDD_DIR/cdd_*.nc $FINAL_FILE
 
 # ============================
-# 6. Vérification des time steps
+# 6. Timesteps verification
 # ============================
-echo "=== Nombre de pas de temps ==="
+echo "=== Number of timesteps ==="
 
 cdo ntime $FINAL_FILE
 
+
+# 7. NetCDF display information
 # ============================
-# 7. Affichage des informations NetCDF
-# ============================
-echo "=== Informations NetCDF (CDO) ==="
+echo "=== NetCDF Information (CDO) ==="
 cdo sinfo $FINAL_FILE
 
-echo "=== Informations NetCDF (ncdump) ==="
+echo "=== NetCDF Information (ncdump) ==="
 ncdump -h $FINAL_FILE
 
-# optionnel si NCO installé
+# optionnel
 if command -v ncks &> /dev/null; then
-    echo "=== Informations NetCDF (NCO) ==="
+    echo "=== NetCDF Information (NCO) ==="
     ncks -m $FINAL_FILE
 fi
 
 # ============================
-# 8. Fin
+# 8. End
 # ============================
-echo "=== Pipeline terminé avec succès ==="
+echo "=== Pipeline completed successfully ==="
