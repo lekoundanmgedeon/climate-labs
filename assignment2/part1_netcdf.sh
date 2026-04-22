@@ -86,7 +86,7 @@ cdo sinfo $FINAL_FILE
 echo "=== NetCDF Information (ncdump) ==="
 ncdump -h $FINAL_FILE
 
-# optionnel
+# optionnel 
 if command -v ncks &> /dev/null; then
     echo "=== NetCDF Information (NCO) ==="
     ncks -m $FINAL_FILE
