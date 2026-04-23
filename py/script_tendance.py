@@ -26,7 +26,7 @@ from scipy import stats
 
 #====================precipitation CRU================
 
-ncfile0= 'cru_year_cum.nc'
+ncfile0= 'cru_year_result.nc'
 
 # Ouvrir un fichier nectdf : faites ncdump - h pour voir les variables ; ex:  pr(time, rlat, rlon)
 #====================precipitation================
