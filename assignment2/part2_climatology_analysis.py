@@ -23,9 +23,9 @@ pr = ds['pre']
 
 # 2. Country selection (Senegal)
 # ============================
-# Approx bounding box Senegal
-lat_min, lat_max = 12, 17
-lon_min, lon_max = -18, -11
+# Approx bounding box Republic of the Congo (Congo-Brazzaville)
+lat_min, lat_max = -5, 5
+lon_min, lon_max = 11, 19
 
 pr_country = pr.sel(lat=slice(lat_min, lat_max),
                     lon=slice(lon_min, lon_max))

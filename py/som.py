@@ -7,10 +7,12 @@ from mpl_toolkits.basemap import Basemap
 # -----------------------------
 # 1. Load NetCDF data
 # -----------------------------
-file = "GMFD/GMFD_Africa_tas_daily_1948_2008_degC.nc"          # your file
-var_name = "tas"  # change variable
 
-ds = xr.open_dataset(file)
+path = '/home/students-aimssn/Documents/climate_lab/data/'
+# Load the precipitation data from the NetCDF file
+file_path = path + 'GMFD_Africa_tas_daily_1948_2008.nc'
+ds = xr.open_dataset(file_path)
+var_name = "tas"  # change variable
 data = ds[var_name]
 
 # Get coordinates
